@@ -26,6 +26,23 @@ public class BetweenDates {
 	    }
 		return datesInRange;
 	}
+
+	private static Set<String> getPastNDays(String StartDateAsEndDate,String noDays) throws ParseException{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+		Set<String> datesInRange = new LinkedHashSet<>();
+	    Calendar calendar = new GregorianCalendar();
+	    calendar.setTime(sdf.parse(StartDateAsEndDate));
+	     
+	    int count = 0;
+	    int numberOfDays = Integer.valueOf(noDays);
+	    while (count<=numberOfDays) {
+	        Date result = calendar.getTime();
+	        datesInRange.add(sdf.format(result));
+	        calendar.add(Calendar.DATE, -1);
+	        count++;
+	    }
+		return datesInRange;
+	}
 	
 	private static Set<String> getDatesInAscendingOrder(String StartDate,String endDate) throws ParseException{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
@@ -49,6 +66,8 @@ public class BetweenDates {
 		String endDate = "2019-12-28";
 		System.out.println(BetweenDates.getDatesInDescendingOrder(startDate, endDate));
 		System.out.println(BetweenDates.getDatesInAscendingOrder(startDate, endDate));
+		System.out.println(BetweenDates.getPastNDays(startDate, "7"));
+		
 	}
 
 }
