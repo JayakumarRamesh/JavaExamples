@@ -1,0 +1,54 @@
+package com.scaalert.demo;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+public class BetweenDates {
+
+	private static Set<String> getDatesInDescendingOrder(String StartDateAsEndDate,String endDateAsStartDate) throws ParseException{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+		Set<String> datesInRange = new LinkedHashSet<>();
+	    Calendar calendar = new GregorianCalendar();
+	    calendar.setTime(sdf.parse(endDateAsStartDate));
+	     
+	    Calendar endCalendar = new GregorianCalendar();
+	    endCalendar.setTime(sdf.parse(StartDateAsEndDate));
+	 
+	    while (calendar.after(endCalendar)) {
+	        Date result = calendar.getTime();
+	        datesInRange.add(sdf.format(result));
+	        calendar.add(Calendar.DATE, -1);
+	    }
+		return datesInRange;
+	}
+	
+	private static Set<String> getDatesInAscendingOrder(String StartDate,String endDate) throws ParseException{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+		Set<String> datesInRange = new LinkedHashSet<>();
+	    Calendar calendar = new GregorianCalendar();
+	    calendar.setTime(sdf.parse(StartDate));
+	     
+	    Calendar endCalendar = new GregorianCalendar();
+	    endCalendar.setTime(sdf.parse(endDate));
+	 
+	    while (calendar.before(endCalendar)) {
+	        Date result = calendar.getTime();
+	        datesInRange.add(sdf.format(result));
+	        calendar.add(Calendar.DATE, 1);
+	    }
+		return datesInRange;
+	}
+	
+	public static void main(String[] args) throws ParseException {
+		String startDate = "2019-12-18";
+		String endDate = "2019-12-28";
+		System.out.println(BetweenDates.getDatesInDescendingOrder(startDate, endDate));
+		System.out.println(BetweenDates.getDatesInAscendingOrder(startDate, endDate));
+	}
+
+}
